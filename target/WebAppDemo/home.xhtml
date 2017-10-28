@@ -1,0 +1,33 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+<h:head/>
+<h:body>
+    <h:form id="form">
+        <p:growl id="msgs" showDetail="true" />
+
+        <h:panelGrid columns="2">
+            <p:outputLabel value="Pesquisar serviço:" for="serviceId"/>
+            <p:autoComplete id="serviceId"
+                            value="#{serviceController.serviceSelecionado}"
+                            completeMethod="#{serviceController.buscaServicos}"
+                            var="service" itemLabel="#{service.descricao}" itemValue="#{service}"
+                            converter="serviceConverter">
+            </p:autoComplete>
+        </h:panelGrid>
+
+        <p:commandButton value="Submit" icon="ui-icon-check" update="output msgs" oncomplete="PF('dlg').show()" />
+
+        <p:dialog header="Values" resizable="false" showEffect="fade" widgetVar="dlg">
+            <p:panelGrid id="output" columns="2" columnClasses="label, value">
+                <h:outputText value="Service: " />
+                <h:outputText value="#{serviceController.serviceSelecionado.descricao}" />
+                <h:outputText value="Date: " />
+                <h:outputText value="#{session.lastAccessedTime}">
+                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm" type="date" timeZone="GMT-03:00" />
+                </h:outputText>
+            </p:panelGrid>
+        </p:dialog>
+    </h:form>
+</h:body>
+</html>
